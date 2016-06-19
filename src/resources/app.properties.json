@@ -1,0 +1,7 @@
+{
+  "some.prom": "some-value",
+  "todo": {
+    "defaultName": "Unnamed todo"
+  },
+  "application.profiles.active": "dev"
+}

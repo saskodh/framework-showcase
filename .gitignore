@@ -1,0 +1,10 @@
+# Exclude IDE stuff
+.idea
+
+# Exclude installed dependencies
+node_modules
+typings
+
+# Exclude compiled files
+*.js
+*.js.map

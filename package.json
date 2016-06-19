@@ -1,0 +1,20 @@
+{
+  "name": "sample",
+  "version": "0.0.1",
+  "scripts": {
+    "start": "tsc && node main.js"
+  },
+  "dependencies": {
+    "@sklechko/framework": "0.0.1",
+    "body-parser": "1.15.1",
+    "express": "4.13.4",
+    "lodash": "4.13.1"
+  },
+  "devDependencies": {
+    "chai": "3.5.0",
+    "mocha": "2.5.3",
+    "sinon": "1.17.4",
+    "ts-node": "0.9.1",
+    "typescript": "1.8.10"
+  }
+}
