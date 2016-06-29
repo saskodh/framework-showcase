@@ -3,5 +3,17 @@
   "todo": {
     "defaultName": "Unnamed todo"
   },
-  "application.profiles.active": "dev"
+  "application.profiles.active": "dev",
+  "db": {
+    "pg": {
+      "host": "localhost",
+      "database": "nodeDb",
+      "port": 5432,
+      "pool": {
+        "minConnections": 10,
+        "maxConnections": 30,
+        "idleTimeoutMillis": 30000
+      }
+    }
+  }
 }
