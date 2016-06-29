@@ -1,45 +1,48 @@
-import {TodoRepository} from "../repository/TodoRepository";
 import {TodoModel} from "../models/TodoModel";
 import {RequestMethod, RequestMapping, Controller, Inject, Value} from "@sklechko/framework";
 
-class AbstractController {
-
-    @RequestMapping({ path: '/tralala', method: RequestMethod.GET })
-    async tralalal () {
-        return {
-            hello: 'world'
-        }
-    }
-}
+import {Request} from "express-serve-static-core";
+import {TodoService} from "../services/TodoService";
 
 @Controller()
-export class TodoController extends AbstractController {
+export class TodoController {
 
-    @Inject(TodoRepository)
-    private todoRepository: TodoRepository;
+    @Inject(TodoService)
+    private todoService: TodoService;
 
     @Value('todo.defaultName')
-    private property: string;
-
-    constructor() {
-        super();
+    private defaultName: string;
+    
+    @RequestMapping({ path: '/get/:id', method: RequestMethod.GET})
+    async getTodo(request: Request) {
+        let id = request.params.id;
+        return await this.todoService.get(id);
     }
 
     @RequestMapping({ path: '/getAll', method: RequestMethod.GET })
     async getAllTodos() {
-        return await this.todoRepository.getAll();
+        return await this.todoService.getAll();
     }
 
     @RequestMapping({ path: '/add', method: RequestMethod.PUT })
     async addTodo(request) {
-        let name = request.params.name || this.property;
-        var todo = new TodoModel(name, request.params.description);
-        return await this.todoRepository.save(todo);
+        let name = request.body.name || this.defaultName;
+        var todo = new TodoModel(name, request.body.description);
+        return await this.todoService.save(todo);
     }
 
-    @RequestMapping({ path: '/delete', method: RequestMethod.DELETE })
-    async deleteTodo(request) {
-        let todo = await this.todoRepository.get(request.params.todoId);
-        return await this.todoRepository.delete(todo);
+    @RequestMapping({ path: '/update/:id', method: RequestMethod.PUT })
+    async updateTodo(request: Request) {
+        let todoUpdate = <TodoModel> request.body;
+        let todo = new TodoModel(todoUpdate.name, todoUpdate.description);
+        todo.id = request.params.id;
+        todo.completed = todoUpdate.completed;
+        return await this.todoService.update(todo);
+    }
+
+    @RequestMapping({ path: '/delete/:id', method: RequestMethod.DELETE })
+    async deleteTodo(request: Request) {
+        let todoId = request.params.id;
+        return await this.todoService.delete(todoId);
     }
 }

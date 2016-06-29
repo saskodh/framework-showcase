@@ -1,16 +1,16 @@
 import {expect} from "chai";
 import {stub} from "sinon";
 import {TodoController} from "../src/app/controllers/TodoController";
-import {TodoRepository} from "../src/app/repository/TodoRepository";
+import {TodoRepositoryPgImpl} from "TodoRepositoryPgImpl.ts";
 
 describe('TodoController', () => {
 
     let todoController: TodoController;
-    let todoRepository: TodoRepository;
+    let todoRepository: TodoRepositoryPgImpl;
 
     beforeEach(() => {
         todoController = new TodoController();
-        todoRepository = new TodoRepository();
+        todoRepository = new TodoRepositoryPgImpl();
 
         // wiring
         (<any> todoController).todoRepository = todoRepository;
