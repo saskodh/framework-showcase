@@ -1,13 +1,13 @@
 import {TodoModel} from "../models/TodoModel";
 import {Component, Inject} from "@sklechko/framework";
-import {ITodoRepository} from "./ITodoRepository";
+import {ITodoRepository, ITodoRepositoryToken} from "./ITodoRepository";
 import {DataSourceService} from "./dataSources/DataSourceService";
 import * as _ from 'lodash';
 
-@Component()
-export class TodoRepositoryPgImpl implements ITodoRepository{
+@Component(ITodoRepositoryToken)
+export class TodoRepositoryPgImpl implements ITodoRepository {
 
-    @Inject(DataSourceService)
+    @Inject()
     private dataSourceService: DataSourceService;
 
     async get(todoId: number): Promise<TodoModel> {
@@ -34,13 +34,13 @@ export class TodoRepositoryPgImpl implements ITodoRepository{
         let updatedTodo = await this.get(todo.id);
         return TodoRepositoryPgImpl.convertTodoResult(updatedTodo);
     }
-    
+
     async delete(todoId: number): Promise<{ success: boolean }> {
         let query = 'delete from TodoModel where id = $1';
         await this.dataSourceService.executeQuery(query, [todoId]);
         return { success: true };
     }
-    
+
     private static convertTodoResultArray(result: Array<any>): Array<TodoModel> {
         return _.map(result, TodoRepositoryPgImpl.convertTodoResult);
     }

@@ -1,12 +1,12 @@
 import {Component, Inject} from "@sklechko/framework";
-import {TodoRepositoryPgImpl} from "../repository/TodoRepositoryPgImpl";
 import {TodoModel} from "../models/TodoModel";
+import {ITodoRepository, ITodoRepositoryToken} from "../repository/ITodoRepository";
 
 @Component()
 export class TodoService {
 
-    @Inject(TodoRepositoryPgImpl)
-    todoRepository: TodoRepositoryPgImpl;
+    @Inject(ITodoRepositoryToken)
+    todoRepository: ITodoRepository;
 
     async get(id: number): Promise<TodoModel> {
         return this.todoRepository.get(id);

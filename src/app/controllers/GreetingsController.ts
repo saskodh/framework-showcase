@@ -4,7 +4,7 @@ import {GreetService} from "../services/GreetService";
 
 class AbstractGreetingCtrl {
 
-    @Inject(GreetService)
+    @Inject()
     greetService: GreetService;
 
 }

@@ -7,12 +7,12 @@ import {TodoService} from "../services/TodoService";
 @Controller()
 export class TodoController {
 
-    @Inject(TodoService)
+    @Inject()
     private todoService: TodoService;
 
     @Value('todo.defaultName')
     private defaultName: string;
-    
+
     @RequestMapping({ path: '/get/:id', method: RequestMethod.GET})
     async getTodo(request: Request) {
         let id = request.params.id;

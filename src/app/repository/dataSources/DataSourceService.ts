@@ -5,7 +5,7 @@ import {DataSource} from "./DataSource";
 @Component()
 export class DataSourceService {
 
-    @Inject(DataSource)
+    @Inject()
     private dataSource: DataSource;
 
     public async executeQuery(sqlQuery: string, parameters?: Array<any>): Promise<QueryResult> {
