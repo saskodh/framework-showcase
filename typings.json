@@ -7,6 +7,7 @@
     "express-serve-static-core": "registry:dt/express-serve-static-core#0.0.0+20160322035842",
     "lodash": "registry:dt/lodash#3.10.0+20160330154726",
     "mime": "registry:dt/mime#0.0.0+20160316155526",
+    "mongodb": "registry:dt/mongodb#2.1.0+20160602142941",
     "node": "registry:dt/node#6.0.0+20160514165920",
     "pg": "registry:dt/pg#0.0.0+20160514172051",
     "serve-static": "registry:dt/serve-static#0.0.0+20160501131543"

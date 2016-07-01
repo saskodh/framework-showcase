@@ -9,6 +9,7 @@
     "body-parser": "1.15.1",
     "express": "4.13.4",
     "lodash": "4.13.1",
+    "mongodb": "2.1.18",
     "pg": "6.0.1"
   },
   "devDependencies": {
