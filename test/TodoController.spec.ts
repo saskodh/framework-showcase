@@ -1,12 +1,13 @@
 import {expect} from "chai";
 import {stub} from "sinon";
 import {TodoController} from "../src/app/controllers/TodoController";
-import {TodoRepositoryPgImpl} from "TodoRepositoryPgImpl.ts";
+import {TodoRepositoryPgImpl} from "../src/app/repository/TodoRepositoryPgImpl";
+import {ITodoRepository} from "../src/app/repository/ITodoRepository";
 
 describe('TodoController', () => {
 
     let todoController: TodoController;
-    let todoRepository: TodoRepositoryPgImpl;
+    let todoRepository: ITodoRepository;
 
     beforeEach(() => {
         todoController = new TodoController();
@@ -30,5 +31,5 @@ describe('TodoController', () => {
             // then
             expect(result).eq(givenTodos);
         });
-    })
+    });
 });

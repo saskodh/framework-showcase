@@ -1,9 +1,10 @@
 import {TodoModel} from "../models/TodoModel";
-import {Component, Inject} from "@sklechko/framework";
+import {Component, Inject, Profile} from "@sklechko/framework";
 import {ITodoRepository, ITodoRepositoryToken} from "./ITodoRepository";
 import {DataSourceService} from "./dataSources/DataSourceService";
 import * as _ from 'lodash';
 
+@Profile('pg')
 @Component(ITodoRepositoryToken)
 export class TodoRepositoryPgImpl implements ITodoRepository {
 
@@ -31,7 +32,7 @@ export class TodoRepositoryPgImpl implements ITodoRepository {
     async update(todo: TodoModel): Promise<TodoModel> {
         let query = 'update TodoModel set name = $2, description = $3, completed = $4 where id = $1';
         await this.dataSourceService.executeQuery(query, [todo.id, todo.name, todo.description, todo.completed]);
-        let updatedTodo = await this.get(todo.id);
+        let updatedTodo = await this.get(<number>todo.id);
         return TodoRepositoryPgImpl.convertTodoResult(updatedTodo);
     }
 

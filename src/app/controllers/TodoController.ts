@@ -25,7 +25,7 @@ export class TodoController {
     }
 
     @RequestMapping({ path: '/add', method: RequestMethod.PUT })
-    async addTodo(request) {
+    async addTodo(request: Request) {
         let name = request.body.name || this.defaultName;
         var todo = new TodoModel(name, request.body.description);
         return await this.todoService.save(todo);

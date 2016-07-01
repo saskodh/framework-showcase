@@ -8,7 +8,7 @@ export class TodoService {
     @Inject(ITodoRepositoryToken)
     todoRepository: ITodoRepository;
 
-    async get(id: number): Promise<TodoModel> {
+    async get(id: number | string): Promise<TodoModel> {
         return this.todoRepository.get(id);
     }
 

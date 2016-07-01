@@ -1,5 +1,5 @@
 export class TodoModel {
-    id: number;
+    id: number | string;
     name: string;
     description: string;
     completed: boolean;

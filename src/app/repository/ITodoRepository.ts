@@ -9,7 +9,7 @@ export interface ITodoRepository {
      * @param todoId todo id
      * @returns todo
      * */
-    get(todoId: number): Promise<TodoModel>;
+    get(todoId: number | string): Promise<TodoModel>;
 
     /**
      * Gets all todos.
@@ -36,6 +36,6 @@ export interface ITodoRepository {
      * @param todoId todo id
      * @returns delete result
      * */
-    delete(todoId: number): Promise<{ success: boolean }>;
+    delete(todoId: number | string): Promise<{ success: boolean }>;
 
 }
