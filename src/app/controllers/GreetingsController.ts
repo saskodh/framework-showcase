@@ -1,4 +1,4 @@
-import {Controller, RequestMapping, RequestMethod, Profile, Inject} from "@sklechko/framework";
+import {Controller, RequestMapping, RequestMethod, Profile, Inject, View} from "@sklechko/framework";
 import {Request} from "express-serve-static-core";
 import {GreetService} from "../services/GreetService";
 
@@ -9,7 +9,6 @@ class AbstractGreetingCtrl {
 
 }
 
-@Profile('dev')
 @Controller()
 export class GreetingsController extends AbstractGreetingCtrl {
 
@@ -20,7 +19,8 @@ export class GreetingsController extends AbstractGreetingCtrl {
             }, 2000);
         });
     }
-
+    
+    @View("sayHi")
     @RequestMapping({ path: '/sayHello/:name', method: RequestMethod.GET })
     async sayHello (request: Request) {
         try {
@@ -29,16 +29,14 @@ export class GreetingsController extends AbstractGreetingCtrl {
             console.error('Error: ', e);
         }
         return {
-            message: 'Hello world ' + name
+            greet: 'Hello world ' + name
         };
     }
 
+    @View()
     @RequestMapping({ path: '/hi', method: RequestMethod.GET })
     async sayHi() {
         var greet = await this.greetService.getGreeting();
-
-        return {
-            greet: `Today's greet: ${greet}`
-        };
+        return {greet: greet};
     }
 }

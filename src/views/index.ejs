@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello world!</title>
+</head>
+<body>
+    <ul>
+        <% for(var i=0; i<todos.length; i++) {%>
+        <li>
+            Name: <%= todos[i].name %>
+            <br/>
+            Description: <%= todos[i].description %>
+        </li>
+        <% } %>
+    </ul>
+</body>
+</html>
