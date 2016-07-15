@@ -1,5 +1,7 @@
 import {TodoModel} from "../models/TodoModel";
-import {RequestMethod, RequestMapping, Controller, Inject, Value} from "@sklechko/framework";
+import {
+    RequestMethod, RequestMapping, Controller, Inject, Value
+} from "@sklechko/framework";
 
 import {Request} from "express-serve-static-core";
 import {TodoService} from "../services/TodoService";

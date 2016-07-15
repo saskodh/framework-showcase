@@ -1,8 +1,8 @@
 import {expect} from "chai";
 import {stub} from "sinon";
 import {TodoController} from "../src/app/controllers/TodoController";
-import {TodoRepositoryPgImpl} from "../src/app/repository/TodoRepositoryPgImpl";
-import {ITodoRepository} from "../src/app/repository/ITodoRepository";
+import {TodoRepositoryPgImpl} from "../src/app/repositories/TodoRepositoryPgImpl";
+import {ITodoRepository} from "../src/app/repositories/ITodoRepository";
 
 describe('TodoController', () => {
 
