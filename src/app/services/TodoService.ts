@@ -1,6 +1,6 @@
 import {Component, Inject} from "@sklechko/framework";
 import {TodoModel} from "../models/TodoModel";
-import {ITodoRepository, ITodoRepositoryToken} from "../repository/ITodoRepository";
+import {ITodoRepository, ITodoRepositoryToken} from "../repositories/ITodoRepository";
 
 @Component()
 export class TodoService {

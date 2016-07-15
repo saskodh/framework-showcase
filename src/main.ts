@@ -1,12 +1,7 @@
 import {WebAppInitializer} from "./app/WebAppInitializer";
-import {ComponentScan, PropertySource, Configuration, ApplicationContext} from "@sklechko/framework";
+import {ApplicationContext} from "@sklechko/framework";
 
-var properties = require('./resources/app.properties.json');
+import {AppConfig} from "./app/AppConfig"
 
-@ComponentScan(__dirname + '/app')
-@PropertySource(properties)
-@Configuration()
-class Config {}
-
-let applicationContext = new ApplicationContext(Config);
+let applicationContext = new ApplicationContext(AppConfig);
 var app = WebAppInitializer.bootstrap(applicationContext).getApplication();

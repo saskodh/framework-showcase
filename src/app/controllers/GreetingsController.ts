@@ -1,6 +1,7 @@
-import {Controller, RequestMapping, RequestMethod, Profile, Inject} from "@sklechko/framework";
+import {Controller, RequestMapping, RequestMethod, Inject} from "@sklechko/framework";
 import {Request} from "express-serve-static-core";
 import {GreetService} from "../services/GreetService";
+import {CacheableService} from "../services/CacheableService";
 
 class AbstractGreetingCtrl {
 
@@ -9,9 +10,11 @@ class AbstractGreetingCtrl {
 
 }
 
-@Profile('dev')
 @Controller()
 export class GreetingsController extends AbstractGreetingCtrl {
+
+    @Inject()
+    private cacheService: CacheableService;
 
     getName(request: Request) {
         return new Promise(function (resolve) {
@@ -33,12 +36,13 @@ export class GreetingsController extends AbstractGreetingCtrl {
         };
     }
 
-    @RequestMapping({ path: '/hi', method: RequestMethod.GET })
-    async sayHi() {
-        var greet = await this.greetService.getGreeting();
+    @RequestMapping({ path: '/cache', method: RequestMethod.GET })
+    async get() {
+        return await this.cacheService.getModel('id');
+    }
 
-        return {
-            greet: `Today's greet: ${greet}`
-        };
+    @RequestMapping({ path: '/cacheDelete', method: RequestMethod.GET })
+    async delete() {
+        return await this.cacheService.deleteModel('id');
     }
 }
