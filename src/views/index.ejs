@@ -5,14 +5,17 @@
     <title>Hello world!</title>
 </head>
 <body>
-    <ul>
-        <% for(var i=0; i<todos.length; i++) {%>
+    <h2>Todos:</h2>
+    <ol>
+        <% for (let todo of todos) { %>
         <li>
-            Name: <%= todos[i].name %>
-            <br/>
-            Description: <%= todos[i].description %>
+            <ul>
+                <li>Name: <%= todo.name %></li>
+                <li>Description: <%= todo.description %></li>
+            </ul>
         </li>
+        <br>
         <% } %>
-    </ul>
+    </ol>
 </body>
 </html>
