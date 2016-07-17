@@ -1,9 +1,7 @@
 import * as bodyParser from "body-parser";
 import * as express from "express";
 import * as path from "path";
-import * as fileSystem from "fs";
 import {Application} from "express-serve-static-core";
-import {Router} from "express-serve-static-core";
 import {ApplicationContext} from "@sklechko/framework";
 
 export class WebAppInitializer {
@@ -13,17 +11,23 @@ export class WebAppInitializer {
     private app: Application;
 
 
-    public static bootstrap(applicationContext?: ApplicationContext): WebAppInitializer {
+    public static async bootstrap(applicationContext?: ApplicationContext): Promise<Application> {
         var initializer = new WebAppInitializer();
         if (applicationContext) {
+            await applicationContext.start();
             initializer.getApplication().use(applicationContext.getRouter());
         }
 
-        initializer.getApplication().listen(WebAppInitializer.PORT, function () {
-            console.log('Application successfully started on port: ', WebAppInitializer.PORT);
-        });
+        await this.startServer(initializer);
+        return initializer.getApplication();
+    }
 
-        return initializer;
+    private static async startServer(initializer: WebAppInitializer) {
+        return new Promise((resolve) => {
+           initializer.getApplication().listen(this.PORT, function () {
+               resolve(true);
+           });
+        });
     }
 
     constructor() {

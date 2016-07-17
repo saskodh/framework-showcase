@@ -1,7 +1,8 @@
 import {QueryResult} from "pg";
-import {Component, Inject} from "@sklechko/framework";
+import {Component, Inject, Profile} from "@sklechko/framework";
 import {DataSource} from "./DataSource";
 
+@Profile('pg')
 @Component()
 export class DataSourceService {
 

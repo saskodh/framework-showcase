@@ -1,13 +1,14 @@
-import {Component, Value} from "@sklechko/framework";
+import {Component, Value, PostConstruct, Profile} from "@sklechko/framework";
 import * as pg from "pg";
 import {Client} from "pg";
 
+@Profile('pg')
 @Component()
 export class DataSource {
-    
+
     @Value('db.pg.host')
     private host: string;
-    
+
     @Value('db.pg.database')
     private database: string;
 
@@ -16,27 +17,21 @@ export class DataSource {
 
     @Value('db.pg.pool.minConnections')
     private minConnections: number;
-    
+
     @Value('db.pg.pool.maxConnections')
     private maxConnections: number;
 
     @Value('db.pg.pool.idleTimeoutMillis')
     private idleTimeoutMillis: number;
-    
+
     private pool;
-    
+
     public async getConnection():Promise<Client> {
-        return await this.getPool().connect();
+        return await this.pool.connect();
     }
-    
-    private getPool() {
-        if(!this.pool) {
-            this.createPool();
-        }
-        return this.pool;
-    }
-    
-    private createPool() {
+
+    @PostConstruct()
+    private createConnectionPool() {
         let config = {
             database: this.database, //env var: PGDATABASE
             port: this.port, //env var: PGPORT

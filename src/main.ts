@@ -3,5 +3,11 @@ import {ApplicationContext} from "@sklechko/framework";
 
 import {AppConfig} from "./app/AppConfig"
 
-let applicationContext = new ApplicationContext(AppConfig);
-var app = WebAppInitializer.bootstrap(applicationContext).getApplication();
+(async function start() {
+
+    let applicationContext = new ApplicationContext(AppConfig);
+    let app = await WebAppInitializer.bootstrap(applicationContext);
+    console.log('Application successfully started on port: ', WebAppInitializer.PORT);
+
+    applicationContext.registerExitHook();
+})();
