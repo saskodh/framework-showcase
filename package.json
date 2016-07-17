@@ -2,7 +2,7 @@
   "name": "sample",
   "version": "0.0.1",
   "scripts": {
-    "start": "tsc && node main.js"
+    "start": "tsc && node ./src/main.js"
   },
   "dependencies": {
     "@sklechko/framework": "0.0.1",
