@@ -30,7 +30,6 @@ export class WebAppInitializer {
         this.app = express();
 
         this.config();
-        this.routes();
     }
 
     getApplication () {
@@ -47,6 +46,10 @@ export class WebAppInitializer {
         // mount query string parser
         this.app.use(bodyParser.urlencoded({ extended: true }));
 
+        //view setup
+        this.app.set('views', path.join(__dirname, '../views'));
+        this.app.set('view engine', 'ejs');
+
         // add static paths
         this.app.use(express.static(path.join(__dirname, "public")));
 
@@ -56,27 +59,5 @@ export class WebAppInitializer {
             err.status = 404;
             next(err);
         });
-    }
-
-    private routes() {
-        // create router
-        let router: Router = express.Router();
-
-        // create routes
-        // send index.html with an angular app
-        router.get('/', (request, response) => {
-            fileSystem.readFile('public/index.html', function (error, result) {
-                if (error) {
-                    response.writeHead(404);
-                    response.end();
-                } else {
-                    response.writeHead(200);
-                    response.end(result)
-                }
-            });
-        });
-
-        // use router middleware
-        this.app.use(router);
     }
 }

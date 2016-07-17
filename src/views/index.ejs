@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello world!</title>
+</head>
+<body>
+    <h2>Todos:</h2>
+    <ol>
+        <% for (let todo of todos) { %>
+        <li>
+            <ul>
+                <li>Name: <%= todo.name %></li>
+                <li>Description: <%= todo.description %></li>
+            </ul>
+        </li>
+        <br>
+        <% } %>
+    </ol>
+</body>
+</html>

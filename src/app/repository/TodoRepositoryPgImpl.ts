@@ -1,11 +1,12 @@
 import {TodoModel} from "../models/TodoModel";
-import {Component, Inject, Profile} from "@sklechko/framework";
+import {Component, Inject, Profile, Qualifier} from "@sklechko/framework";
 import {ITodoRepository, ITodoRepositoryToken} from "./ITodoRepository";
 import {DataSourceService} from "./dataSources/DataSourceService";
 import * as _ from 'lodash';
 
 @Profile('pg')
-@Component(ITodoRepositoryToken)
+@Qualifier(ITodoRepositoryToken)
+@Component()
 export class TodoRepositoryPgImpl implements ITodoRepository {
 
     @Inject()

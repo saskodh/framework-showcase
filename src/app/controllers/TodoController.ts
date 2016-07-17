@@ -5,6 +5,7 @@ import {
 
 import {Request} from "express-serve-static-core";
 import {TodoService} from "../services/TodoService";
+import {View} from "@sklechko/framework/lib/decorators/ViewDecorator";
 
 @Controller()
 export class TodoController {
@@ -14,6 +15,13 @@ export class TodoController {
 
     @Value('todo.defaultName')
     private defaultName: string;
+
+    @View()
+    @RequestMapping({path: '/', method: RequestMethod.GET})
+    async index(){
+        let todos = await this.getAllTodos();
+        return {todos};
+    }
 
     @RequestMapping({ path: '/get/:id', method: RequestMethod.GET})
     async getTodo(request: Request) {
