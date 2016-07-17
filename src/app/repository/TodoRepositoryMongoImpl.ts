@@ -1,4 +1,4 @@
-import {Component, Inject, Profile} from "@sklechko/framework";
+import {Component, Inject, Profile, Qualifier} from "@sklechko/framework";
 import {MongoDataSource} from "./dataSources/MongoDataSource";
 import {ITodoRepository, ITodoRepositoryToken} from "./ITodoRepository";
 import {TodoModel} from "../models/TodoModel";
@@ -7,7 +7,8 @@ import {ObjectID} from "mongodb";
 import * as _ from 'lodash';
 
 @Profile('mongo')
-@Component(ITodoRepositoryToken)
+@Qualifier(ITodoRepositoryToken)
+@Component()
 export class TodoRepositoryMongoImpl implements ITodoRepository {
 
     @Inject()
