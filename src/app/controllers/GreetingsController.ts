@@ -1,6 +1,7 @@
-import {Controller, RequestMapping, RequestMethod, Profile, Inject, View} from "@sklechko/framework";
+import {Controller, RequestMapping, RequestMethod, Inject, View} from "@sklechko/framework";
 import {Request} from "express-serve-static-core";
 import {GreetService} from "../services/GreetService";
+import { Environment } from "@sklechko/framework/lib/di/Environment";
 
 class AbstractGreetingCtrl {
 
@@ -35,8 +36,12 @@ export class GreetingsController extends AbstractGreetingCtrl {
 
     @View()
     @RequestMapping({ path: '/hi', method: RequestMethod.GET })
-    async sayHi() {
+    async sayHi(request, response) {
         var greet = await this.greetService.getGreeting();
-        return {greet: greet};
+        var someProperty = Environment.getProperty('some.property');
+        return {
+            greet: greet,
+            someProperty
+        };
     }
 }

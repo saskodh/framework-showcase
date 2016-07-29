@@ -1,5 +1,5 @@
 {
-  "some.prom": "some-value",
+  "some": {"property": "someValue"},
   "todo": {
     "defaultName": "Unnamed todo"
   },
