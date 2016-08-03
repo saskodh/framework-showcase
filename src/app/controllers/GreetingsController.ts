@@ -9,6 +9,7 @@ class AbstractGreetingCtrl {
 
 }
 
+@Profile('greeting')
 @Controller()
 export class GreetingsController extends AbstractGreetingCtrl {
 

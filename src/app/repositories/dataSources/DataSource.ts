@@ -32,6 +32,7 @@ export class DataSource {
 
     @PostConstruct()
     private createConnectionPool() {
+        console.log("creating Postgre connection pool...");
         let config = {
             database: this.database, //env var: PGDATABASE
             port: this.port, //env var: PGPORT
