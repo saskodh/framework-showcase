@@ -45,7 +45,8 @@ export class GreetingsController extends AbstractGreetingCtrl {
         var someProperty = this.env.getProperty('some.property');
         return {
             greet: greet,
-            someProperty
+            someProperty,
+            preHandleMessage: response.preHandleProperty
         };
     }
 }
