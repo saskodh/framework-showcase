@@ -1,9 +1,14 @@
 {
-  "some.prom": "some-value",
+  "some": {"property": "someValue"},
   "todo": {
     "defaultName": "Unnamed todo"
   },
-  "application.profiles.active": "mongo",
+  "application": {
+    "profiles": {
+      "active": ["greeting"],
+      "default": ["pg"]
+    }
+  },
   "db": {
     "pg": {
       "host": "localhost",
