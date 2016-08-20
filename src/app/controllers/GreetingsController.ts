@@ -1,4 +1,6 @@
-import { Controller, RequestMapping, RequestMethod, Profile, Inject, View, } from "@sklechko/framework";
+import {
+    Controller, RequestMapping, RequestMethod, Profile, RequestContextHolder, Inject, View
+} from "@sklechko/framework";
 import {Request} from "express-serve-static-core";
 import {GreetService} from "../services/GreetService";
 import { Environment } from "@sklechko/framework/lib/di/Environment";
@@ -17,36 +19,27 @@ export class GreetingsController extends AbstractGreetingCtrl {
     @Inject()
     private env: Environment;
 
-    getName(request: Request) {
+    getName() {
         return new Promise(function (resolve) {
             setTimeout(function () {
-                resolve(request.params.name);
-            }, 2000);
+                resolve(RequestContextHolder.getRequest().params.name);
+            }, 5000);
         });
     }
 
     @View("sayHi")
     @RequestMapping({ path: '/sayHello/:name', method: RequestMethod.GET })
-    async sayHello (request: Request) {
-        try {
-            var name = await this.getName(request);
-        } catch (e) {
-            console.error('Error: ', e);
-        }
-        return {
-            greet: 'Hello world ' + name
-        };
+    async sayHello () {
+        var name = await this.getName();
+        return { greet: `Hi ${name}` };
     }
 
     @View()
     @RequestMapping({ path: '/hi', method: RequestMethod.GET })
-    async sayHi(request, response) {
+    async sayHi() {
         var greet = await this.greetService.getGreeting();
         var someProperty = this.env.getProperty('some.property');
-        return {
-            greet: greet,
-            someProperty,
-            preHandleMessage: response.preHandleProperty
-        };
+        var preHandleMessage = (<any> RequestContextHolder.getResponse()).preHandleProperty;
+        return { greet, someProperty, preHandleMessage };
     }
 }

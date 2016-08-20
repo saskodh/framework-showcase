@@ -14,6 +14,8 @@
       "host": "localhost",
       "database": "nodeDb",
       "port": 5432,
+      "username": "postgres",
+      "password": "postgres",
       "pool": {
         "minConnections": 10,
         "maxConnections": 30,

@@ -17,8 +17,6 @@ export class DataSourceService {
             return <QueryResult> queryResult;
         } catch (err) {
             console.error(err);
-        } finally {
-            (<any> client).release();
         }
         return null;
     }

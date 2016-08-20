@@ -13,6 +13,7 @@ export class TodoRepositoryPgImpl implements ITodoRepository {
     private dataSourceService: DataSourceService;
 
     async get(todoId: number): Promise<TodoModel> {
+        console.log(`Fetching todo with id: '${todoId}.'`);
         let query = 'select * from TodoModel where id = $1';
         let todoResult = await this.dataSourceService.executeQuery(query, [todoId]);
         return TodoRepositoryPgImpl.convertTodoResult(todoResult.rows[0]);
@@ -25,12 +26,14 @@ export class TodoRepositoryPgImpl implements ITodoRepository {
     }
 
     async save(todo: TodoModel): Promise<TodoModel> {
+        console.log(`Saving todo: '${todo}.'`);
         let query = 'insert into TodoModel(name, description, completed) values($1, $2, $3) returning id';
         let insertResult = await this.dataSourceService.executeQuery(query, [todo.name, todo.description, todo.completed]);
         return this.get(insertResult.rows[0].id);
     }
 
     async update(todo: TodoModel): Promise<TodoModel> {
+        console.log(`Updating todo with id: '${todo.id}.'`);
         let query = 'update TodoModel set name = $2, description = $3, completed = $4 where id = $1';
         await this.dataSourceService.executeQuery(query, [todo.id, todo.name, todo.description, todo.completed]);
         let updatedTodo = await this.get(<number>todo.id);
