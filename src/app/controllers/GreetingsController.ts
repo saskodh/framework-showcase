@@ -1,9 +1,9 @@
 import {
     Controller, RequestMapping, RequestMethod, Profile, RequestContextHolder, Inject, View
 } from "@sklechko/framework";
-import {Request} from "express-serve-static-core";
 import {GreetService} from "../services/GreetService";
 import { Environment } from "@sklechko/framework/lib/di/Environment";
+import { Timed } from "../postProcessors/timed/Timed";
 
 class AbstractGreetingCtrl {
 
@@ -23,10 +23,11 @@ export class GreetingsController extends AbstractGreetingCtrl {
         return new Promise(function (resolve) {
             setTimeout(function () {
                 resolve(RequestContextHolder.getRequest().params.name);
-            }, 5000);
+            }, 2000);
         });
     }
 
+    @Timed()
     @View("sayHi")
     @RequestMapping({ path: '/sayHello/:name', method: RequestMethod.GET })
     async sayHello () {
