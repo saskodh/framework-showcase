@@ -3,7 +3,7 @@ import {
 } from "@sklechko/framework";
 import {GreetService} from "../services/GreetService";
 import { Environment } from "@sklechko/framework/lib/di/Environment";
-import { TimedDecorator } from "../postProcessors/TimedDecorator";
+import { Timed } from "../postProcessors/timed/Timed";
 
 class AbstractGreetingCtrl {
 
@@ -27,7 +27,7 @@ export class GreetingsController extends AbstractGreetingCtrl {
         });
     }
 
-    @TimedDecorator()
+    @Timed()
     @View("sayHi")
     @RequestMapping({ path: '/sayHello/:name', method: RequestMethod.GET })
     async sayHello () {

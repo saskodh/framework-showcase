@@ -2,7 +2,7 @@ import { IComponentDefinitionPostProcessor } from "@sklechko/framework/lib/proce
 import { ComponentDefinitionPostProcessor } from "@sklechko/framework";
 import { ProxyUtils } from "@sklechko/framework/lib/helpers/ProxyUtils";
 import { ReflectUtils } from "@sklechko/framework/lib/helpers/ReflectUtils";
-import { TimedDecoratorUtil } from "./TimedDecorator";
+import { TimedUtil } from "./Timed";
 
 @ComponentDefinitionPostProcessor()
 export class TimedDefinitionPostProcessor implements IComponentDefinitionPostProcessor {
@@ -12,7 +12,7 @@ export class TimedDefinitionPostProcessor implements IComponentDefinitionPostPro
 
         for(let methodName of ReflectUtils.getAllMethodsNames(componentConstructor)) {
             if(methodName !== 'constructor') {
-                if(TimedDecoratorUtil.isTimedDecoratorApplied(componentConstructor.prototype)) {
+                if(TimedUtil.isTimedApplied(componentConstructor.prototype)) {
                     let originalMethod = TimedProxy.prototype[methodName];
                     let proxiedMethod = ProxyUtils.createMethodProxy(originalMethod, async (methodRef, instance, args) => {
                         console.log(methodName + ' started executing on ' + this.createDateString());

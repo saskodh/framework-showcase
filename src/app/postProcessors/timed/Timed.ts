@@ -1,13 +1,13 @@
 const TIMED_SYMBOL = Symbol('TIMED_SYMBOL');
-export function TimedDecorator() {
+export function Timed() {
     return function (target, method) {
         target[TIMED_SYMBOL] = true;
     };
 }
 
-export class TimedDecoratorUtil {
+export class TimedUtil {
 
-    static isTimedDecoratorApplied(target) {
+    static isTimedApplied(target) {
         return target[TIMED_SYMBOL] || false;
     }
 }
