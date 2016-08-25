@@ -1,14 +1,21 @@
 {
-  "some.prom": "some-value",
+  "some": {"property": "someValue"},
   "todo": {
     "defaultName": "Unnamed todo"
   },
-  "application.profiles.active": "mongo",
+  "application": {
+    "profiles": {
+      "active": ["greeting"],
+      "default": ["pg"]
+    }
+  },
   "db": {
     "pg": {
       "host": "localhost",
       "database": "nodeDb",
       "port": 5432,
+      "username": "postgres",
+      "password": "postgres",
       "pool": {
         "minConnections": 10,
         "maxConnections": 30,

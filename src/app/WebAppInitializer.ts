@@ -1,10 +1,8 @@
 import * as bodyParser from "body-parser";
 import * as express from "express";
 import * as path from "path";
-import * as fileSystem from "fs";
-import {Application} from "express-serve-static-core";
-import {Router} from "express-serve-static-core";
-import {ApplicationContext} from "@sklechko/framework";
+import { Application } from "express-serve-static-core";
+import { ApplicationContext } from "@sklechko/framework";
 
 export class WebAppInitializer {
 
@@ -13,27 +11,32 @@ export class WebAppInitializer {
     private app: Application;
 
 
-    public static bootstrap(applicationContext?: ApplicationContext): WebAppInitializer {
+    public static async bootstrap(applicationContext?: ApplicationContext): Promise<Application> {
         var initializer = new WebAppInitializer();
         if (applicationContext) {
+            await applicationContext.start();
             initializer.getApplication().use(applicationContext.getRouter());
         }
 
-        initializer.getApplication().listen(WebAppInitializer.PORT, function () {
-            console.log('Application successfully started on port: ', WebAppInitializer.PORT);
-        });
+        await this.startServer(initializer);
+        return initializer.getApplication();
+    }
 
-        return initializer;
+    private static async startServer(initializer: WebAppInitializer) {
+        return new Promise((resolve) => {
+            initializer.getApplication().listen(this.PORT, function () {
+                resolve(true);
+            });
+        });
     }
 
     constructor() {
         this.app = express();
 
         this.config();
-        this.routes();
     }
 
-    getApplication () {
+    getApplication() {
         return this.app
     }
 
@@ -45,38 +48,20 @@ export class WebAppInitializer {
         this.app.use(bodyParser.json());
 
         // mount query string parser
-        this.app.use(bodyParser.urlencoded({ extended: true }));
+        this.app.use(bodyParser.urlencoded({extended: true}));
+
+        //view setup
+        this.app.set('views', path.join(__dirname, '../views'));
+        this.app.set('view engine', 'ejs');
 
         // add static paths
         this.app.use(express.static(path.join(__dirname, "public")));
 
         // catch 404 and forward to error handler
-        this.app.use(function(err: any, req, res, next) {
+        this.app.use(function (err: any, req, res, next) {
             var error = new Error("Not Found");
             err.status = 404;
             next(err);
         });
-    }
-
-    private routes() {
-        // create router
-        let router: Router = express.Router();
-
-        // create routes
-        // send index.html with an angular app
-        router.get('/', (request, response) => {
-            fileSystem.readFile('public/index.html', function (error, result) {
-                if (error) {
-                    response.writeHead(404);
-                    response.end();
-                } else {
-                    response.writeHead(200);
-                    response.end(result)
-                }
-            });
-        });
-
-        // use router middleware
-        this.app.use(router);
     }
 }

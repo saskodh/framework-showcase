@@ -1,7 +1,9 @@
-import {Controller, RequestMapping, RequestMethod, Inject} from "@sklechko/framework";
-import {Request} from "express-serve-static-core";
+import {
+    Controller, RequestMapping, RequestMethod, Profile, RequestContextHolder, Inject, View
+} from "@sklechko/framework";
 import {GreetService} from "../services/GreetService";
-import {CacheableService} from "../services/CacheableService";
+import { Environment } from "@sklechko/framework/lib/di/Environment";
+import { Timed } from "../postProcessors/timed/Timed";
 
 class AbstractGreetingCtrl {
 
@@ -10,39 +12,35 @@ class AbstractGreetingCtrl {
 
 }
 
+@Profile('greeting')
 @Controller()
 export class GreetingsController extends AbstractGreetingCtrl {
 
     @Inject()
-    private cacheService: CacheableService;
+    private env: Environment;
 
-    getName(request: Request) {
+    getName() {
         return new Promise(function (resolve) {
             setTimeout(function () {
-                resolve(request.params.name);
+                resolve(RequestContextHolder.getRequest().params.name);
             }, 2000);
         });
     }
 
+    @Timed()
+    @View("sayHi")
     @RequestMapping({ path: '/sayHello/:name', method: RequestMethod.GET })
-    async sayHello (request: Request) {
-        try {
-            var name = await this.getName(request);
-        } catch (e) {
-            console.error('Error: ', e);
-        }
-        return {
-            message: 'Hello world ' + name
-        };
+    async sayHello () {
+        var name = await this.getName();
+        return { greet: `Hi ${name}` };
     }
 
-    @RequestMapping({ path: '/cache', method: RequestMethod.GET })
-    async get() {
-        return await this.cacheService.getModel('id');
-    }
-
-    @RequestMapping({ path: '/cacheDelete', method: RequestMethod.GET })
-    async delete() {
-        return await this.cacheService.deleteModel('id');
+    @View()
+    @RequestMapping({ path: '/hi', method: RequestMethod.GET })
+    async sayHi() {
+        var greet = await this.greetService.getGreeting();
+        var someProperty = this.env.getProperty('some.property');
+        var preHandleMessage = (<any> RequestContextHolder.getResponse()).preHandleProperty;
+        return { greet, someProperty, preHandleMessage };
     }
 }
