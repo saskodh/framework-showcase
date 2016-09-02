@@ -1,5 +1,5 @@
-import {I_CACHE_PROVIDER_TOKEN, ICacheProvider} from "@sklechko/framework/lib/Cache/ICacheProvider";
 import {Component, Qualifier} from "@sklechko/framework";
+import { I_CACHE_PROVIDER_TOKEN, ICacheProvider } from "@sklechko/framework/lib/processors/cache/ICacheProvider";
 var redis = require('redis');
 
 @Qualifier(I_CACHE_PROVIDER_TOKEN)
