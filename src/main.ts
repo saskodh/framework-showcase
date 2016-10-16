@@ -2,15 +2,15 @@ import {WebAppInitializer} from "./app/WebAppInitializer";
 import {ApplicationContext} from "@sklechko/framework";
 import {AppConfig} from "./app/AppConfig"
 
-let applicationContext = new ApplicationContext(AppConfig);
-applicationContext.registerExitHook();
+var startApp = async function () {
+    let applicationContext = await new ApplicationContext(AppConfig).start();
+    applicationContext.registerExitHook();
 
-let start = async function() {
-    await WebAppInitializer.bootstrap(applicationContext);
-    console.log('Application successfully started on port: ', WebAppInitializer.PORT);
+    var app = await WebAppInitializer.bootstrapWithContext(applicationContext);
+    console.log(`Application up and running on port: ${WebAppInitializer.PORT}`);
 };
 
-start().catch((error) => {
+startApp().catch((error) => {
     console.error(error);
     process.exit(1);
 });

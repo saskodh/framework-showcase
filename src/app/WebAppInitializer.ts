@@ -1,6 +1,6 @@
+import * as path from "path";
 import * as bodyParser from "body-parser";
 import * as express from "express";
-import * as path from "path";
 import { Application } from "express-serve-static-core";
 import { ApplicationContext } from "@sklechko/framework";
 
@@ -8,60 +8,38 @@ export class WebAppInitializer {
 
     public static PORT: number = 3000;
 
-    private app: Application;
-
-
-    public static async bootstrap(applicationContext?: ApplicationContext): Promise<Application> {
-        var initializer = new WebAppInitializer();
-        if (applicationContext) {
-            await applicationContext.start();
-            initializer.getApplication().use(applicationContext.getRouter());
-        }
-
-        await this.startServer(initializer);
-        return initializer.getApplication();
+    public static async bootstrap():Promise<Application> {
+        return await this.start(this.configure(this.create()));
     }
 
-    private static async startServer(initializer: WebAppInitializer) {
-        return new Promise((resolve) => {
-            initializer.getApplication().listen(this.PORT, function () {
-                resolve(true);
-            });
-        });
+    public static async bootstrapWithContext(appContext: ApplicationContext) {
+        var app = this.configure(this.create());
+        app.use(appContext.getRouter());
+        return this.start(app);
     }
 
-    constructor() {
-        this.app = express();
-
-        this.config();
+    private static async start(app: Application):Promise<Application> {
+        return new Promise<Application> ((resolve) => app.listen(this.PORT, () => resolve(app)));
     }
 
-    getApplication() {
-        return this.app
+    private static create() {
+        return express();
     }
 
-    private config() {
-        // mount logger
-        //this.app.use(logger("dev"));
+    private static configure(app: Application):Application {
+        // add json form parser
+        app.use(bodyParser.json());
 
-        // mount json form parser
-        this.app.use(bodyParser.json());
+        // add query string parser
+        app.use(bodyParser.urlencoded({extended: true}));
 
-        // mount query string parser
-        this.app.use(bodyParser.urlencoded({extended: true}));
+        // configure view engine
+        app.set('views', path.join(__dirname, '../views'));
+        app.set('view engine', 'ejs');
 
-        //view setup
-        this.app.set('views', path.join(__dirname, '../views'));
-        this.app.set('view engine', 'ejs');
+        // configure static paths
+        app.use(express.static(path.join(__dirname, "public")));
 
-        // add static paths
-        this.app.use(express.static(path.join(__dirname, "public")));
-
-        // catch 404 and forward to error handler
-        this.app.use(function (err: any, req, res, next) {
-            var error = new Error("Not Found");
-            err.status = 404;
-            next(err);
-        });
+        return app;
     }
 }
